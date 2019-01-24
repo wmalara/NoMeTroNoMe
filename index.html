@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Metronome</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css"> -->
+    <!-- <link href="css/style.css" rel="stylesheet" type="text/css" /> -->
+  </head>
+  <body>
+    <div id="metronome">
+        <input type="number" min="20" max="240" value="80" class="metronome-bpm-number-control" />
+        <input type="range" min="20" max="240" value="80" class="metronome-bpm-range-control" />
+        <button type="button" class="metronome-switch">Start</button>
+        <input type="range" min="0" max="100" value="50" class="metronome-volume-control" />
+    </div>
+
+    <!-- <script type="module" src="scripts/app.js"></script>
+    <script type="module">
+      import start from app;
+      (function(){
+        
+        
+        start();
+      })()
+    </script> -->
+    <script>
+      (function(){
+        // const numberControl = document.getElementsByClassName('metronome-bpm-number-control')[0];
+        // const rangeControl = document.getElementsByClassName('metronome-bpm-range-control')[0];
+        // const switchButton = document.getElementsByClassName('metronome-switch')[0];
+        // const volumeControl = document.getElementsByClassName('metronome-volume-control')[0];
+        
+        // function onNumberChange(e){
+        //   const newValue = Number(e.target.value);
+        //   rangeControl.value = newValue;
+        //   console.log('BPM:', newValue);
+        // }
+
+        // function onRangeValueChange(e){
+        //   const newValue = Number(e.target.value);
+        //   numberControl.value = newValue;
+        //   console.log('BPM:', newValue);
+        // }        
+        
+        // numberControl.addEventListener('input', onNumberChange, false);
+        // rangeControl.addEventListener('input', onRangeValueChange, false);
+
+        // let isMetronomeOn = false;
+
+        // function onSwitchButtonClick(e){
+        //   isMetronomeOn = !isMetronomeOn;
+        //   switchButton.textContent = isMetronomeOn ? 'Stop' : 'Start';
+        // }
+
+        // switchButton.addEventListener('click', onSwitchButtonClick, false);
+
+        // function onVolumeChange(e){
+        //   console.log('Volume:', volumeControl.value);
+        // }
+
+        // volumeControl.addEventListener('input', onVolumeChange, false);
+      })()
+    </script>
+  </body>
+</html>
