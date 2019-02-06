@@ -1,37 +1,47 @@
 export default class Beeper {
     constructor() {
-      this.audioCtx = Beeper.buildAudio();
-  
-      this.gainNode = this.audioCtx.createGain();
-      this.gainNode.connect(this.audioCtx.destination);
-  
-      this.setVolumePercent(100);
+        this.audioCtx = Beeper.buildAudio();
+    
+        this.gainNode = this.audioCtx.createGain();
+        this.gainNode.connect(this.audioCtx.destination);
+    
+        this.setVolumePercent(100);
+
+        this.oscillator = null;
     }
-  
-    scheduleTone(toneFrequency, toneLengthMs, startInMs = 0) {
-      // TODO: replace creating oscillator with setting gain to 0
-      const oscillator = this.audioCtx.createOscillator();
-      oscillator.frequency.value = toneFrequency;
-  
-      this.gainNode.gain.value = this.volume / 100;
-  
-      oscillator.connect(this.gainNode);
-  
-      const audioStartTime = this.audioCtx.currentTime + (startInMs / 1000);
-      oscillator.start(audioStartTime);
-  
-      const audioStopTime = audioStartTime + (toneLengthMs / 1000);
-      oscillator.stop(audioStopTime);
+
+    start() {
+        this.oscillator = this.audioCtx.createOscillator();
+        this.oscillator.connect(this.gainNode);
+
+        this.gainNode.gain.value = 0;
+
+        this.oscillator.start();
+    }
+
+    stop() {
+        this.oscillator.stop();
+    }
+    
+    playTone(toneFrequency, toneLengthMs, startInMs = 0) {
+        this.oscillator.frequency.value = toneFrequency;
+        this.oscillator.type = 'triangle';
+    
+        this.gainNode.gain.value = this.volume / 100;
+
+        setTimeout(() => {
+            this.gainNode.gain.value = 0;
+        }, toneLengthMs);
     }
   
     setVolumePercent(volume) {
-      const volumeAdjusted = Math.max(0, Math.min(100, volume));
-      this.volume = volumeAdjusted;
+        const volumeAdjusted = Math.max(0, Math.min(100, volume));
+        this.volume = volumeAdjusted;
     }
   
     static buildAudio() {
-      // eslint-disable-next-line no-undef
-      return new (window.AudioContext || window.webkitAudioContext)();
+        // eslint-disable-next-line no-undef
+        return new (window.AudioContext || window.webkitAudioContext)();
     }
-  }
+}
   

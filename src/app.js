@@ -1,5 +1,6 @@
 import './style.css';
 import Beeper from './beeper';
+import SoundPlayer from './soundPlayer';
 import TickWorker from 'worker-loader!./tickworker.js';
 
 const numberControl = document.getElementsByClassName('metronome-bpm-number-control')[0];
@@ -8,11 +9,12 @@ const switchButton = document.getElementsByClassName('metronome-switch')[0];
 const volumeControl = document.getElementsByClassName('metronome-volume-control')[0];
 
 const minuteMs = 60000;
-const beepToneFrequency = 500;
-const beepLengthMs = 50;
+const beepToneFrequency = 800;
+const beepLengthMs = 30;
 
 
 const beeper = new Beeper();
+const soundPlayer = new SoundPlayer();
 let isMetronomeOn = false;
 let bmpValue = 60;
 let volume = 50;
@@ -24,16 +26,20 @@ function updateWorkerBpm() {
 
 function start() {
     isMetronomeOn = true;
-    timerWorker.postMessage('start');
+    beeper.start();
+    soundPlayer.start().then(() => timerWorker.postMessage('start'));    //promise;
 }
 
 function stop() {
     isMetronomeOn = false;
+    beeper.stop();
+    soundPlayer.stop();
     timerWorker.postMessage('stop');
 }
 
 function beep() {
-    beeper.scheduleTone(beepToneFrequency, beepLengthMs);
+    // beeper.playTone(beepToneFrequency, beepLengthMs);
+    soundPlayer.playSound();
 }
 
 
@@ -72,11 +78,11 @@ rangeControl.addEventListener('input', onRangeValueChange, false);
 
 function onSwitchButtonClick(e){
     isMetronomeOn = !isMetronomeOn;
-    if(isMetronomeOn){
+    if (isMetronomeOn) {
         switchButton.textContent = 'Stop';
         start();
     }
-    else{
+    else {
         switchButton.textContent = 'Start';
         stop();
     }
@@ -86,6 +92,7 @@ switchButton.addEventListener('click', onSwitchButtonClick, false);
 
 function onVolumeChange(e){
     beeper.setVolumePercent(volumeControl.value);
+    soundPlayer.setVolumePercent(volumeControl.value);
 }
 
 volumeControl.addEventListener('input', onVolumeChange, false);

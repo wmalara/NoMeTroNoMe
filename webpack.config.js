@@ -1,15 +1,19 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
   entry: './src/app.js',
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    // new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
         title: 'Mtronome',
         template: 'index.html'
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: 'static' }
+    ])
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
